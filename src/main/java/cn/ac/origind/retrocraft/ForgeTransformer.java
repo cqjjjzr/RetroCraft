@@ -9,8 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.lang.instrument.ClassFileTransformer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.ProtectionDomain;
 import java.time.Instant;
 
@@ -250,10 +248,8 @@ public class ForgeTransformer implements ClassFileTransformer {
             CtClass ctClass = classPool.makeClass(new ByteArrayInputStream(classfileBuffer));
 
             action.apply(ctClass);
-            var bytecode = ctClass.toBytecode();
-            Files.write(Paths.get("E:/", ctClass.getName()), bytecode);
 
-            return bytecode;
+            return ctClass.toBytecode();
         } catch (Exception e) {
             // this should never happen
             e.printStackTrace();
@@ -272,10 +268,8 @@ public class ForgeTransformer implements ClassFileTransformer {
             cf.setMajorVersion(52);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             cf.write(new DataOutputStream(bos));
-            var bytecode = bos.toByteArray();
-            Files.write(Paths.get("E:/", ctClass.getName()), bytecode);
 
-            return bytecode;
+            return bos.toByteArray();
         } catch (Exception e) {
             // this should never happen
             e.printStackTrace();
