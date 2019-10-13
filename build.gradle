@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+}
+
+group 'cn.ac.origind'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.12
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    compile group: 'com.google.guava', name: 'guava', version: '28.0-jre'
+
+    compile group: 'org.javassist', name: 'javassist', version: '3.25.0-GA'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task targetJar(type: Jar) {
+    /*
+    Manifest-Version: 1.0
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Premain-Class: cn.ac.origind.retrocraft.RetroCraftAgent
+     */
+    manifest {
+        attributes (
+                'Can-Redefine-Classes': 'true',
+                'Can-Retransform-Classes': 'true',
+                'Premain-Class': 'cn.ac.origind.retrocraft.RetroCraftAgent'
+        )
+    }
+    archivesBaseName = 'RetroCraft-target'
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
