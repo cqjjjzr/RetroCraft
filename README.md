@@ -1,5 +1,7 @@
 # RetroCraft
-Use Java 11 on Minecraft 1.7.10 with FORGE!
+Use Java 12 on Minecraft 1.7.10 with FORGE!
+
+Java 14 is not supported at this moment due to the removal of Pack200 utils (JEP-367).
 
 # Usage
 
